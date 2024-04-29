@@ -9,7 +9,13 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 // Set session cookie expiration time to one day, reducing the window of opportunity for session hijacking.
 session_set_cookie_params(86400);
-try{
+
+// Initialize response array
+
+// Initialize response array
+$response = array();
+
+try {
     $user = "root";
     $password = "";
     $host = "localhost";
@@ -18,11 +24,20 @@ try{
     
     $mysqliConnection = new mysqli($host, $user, $password, $dbname, $port);
     if ($mysqliConnection->connect_error) {
-        die("Connection failed: " . $mysqliConnection->connect_error);
+        // Connection failed
+        $response['success'] = false;
+        $response['message'] = "Connection failed: " . $mysqliConnection->connect_error;
     } else {
-        echo "Success!";
+        // Connection successful
+        $response['success'] = true;
+        $response['message'] = "Connection successful!";
     }
-}catch(Exception $e){
-    echo "An error occurred: " . $e->getMessage();
+} catch(Exception $e) {
+    // Exception occurred
+    $response['success'] = false;
+    $response['message'] = "An error occurred: " . $e->getMessage();
 }
+
+// Encode response array to JSON and echo it
+echo json_encode($response);
 ?>

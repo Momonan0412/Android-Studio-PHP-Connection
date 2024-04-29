@@ -1,48 +1,40 @@
 package com.example.quizapplication.record;
 
 public class DatabaseConfig {
-    private String jdbcUrl;
-    private String username;
-    private String password;
-    private String[] tableName;
-    private String MYSQL_JDBC_DRIVER_CLASS;
+    private String createTableURL;
+    private String insertJapaneseKanjiDataURL;
+    private String insertNewUsersURL;
+    private String checkIfUserExistURL;
 
-    private DatabaseConfig(String jdbcUrl, String username, String password, String[] tableName, String mysqlJdbcDriverClass) {
-        this.jdbcUrl = jdbcUrl;
-        this.username = username;
-        this.password = password;
-        this.tableName = tableName;
-        this.MYSQL_JDBC_DRIVER_CLASS = mysqlJdbcDriverClass;
+    private DatabaseConfig(String createTableURL, String insertJapaneseKanjiDataURL, String insertNewUsersURL, String checkIfUserExistURL) {
+        this.createTableURL = createTableURL;
+        this.insertJapaneseKanjiDataURL = insertJapaneseKanjiDataURL;
+        this.insertNewUsersURL = insertNewUsersURL;
+        this.checkIfUserExistURL = checkIfUserExistURL;
     }
 
     public static DatabaseConfig createWithDefaults() {
         return new DatabaseConfig(
-                "jdbc:mysql://10.0.2.2:3307/dbjavacrud",
-                "root",
-                "",
-                new String[]{"tbluseraccount", "tbluserprofile", "tbljapanesevocabulary"},
-                "com.mysql.jdbc.Driver"
+                "http://192.168.254.101/Php-MySQL-Connector/create.table.php",
+                "http://192.168.254.101/Php-MySQL-Connector/insert.JP.kanji.data.php",
+                "http://192.168.254.101/Php-MySQL-Connector/register.user.php",
+                "http://192.168.254.101/Php-MySQL-Connector/user.checker.php"
         );
     }
 
-    // Getters for each field
-    public String getJdbcUrl() {
-        return jdbcUrl;
+    public String getCreateTableURL() {
+        return createTableURL;
     }
 
-    public String getUsername() {
-        return username;
+    public String getInsertJapaneseKanjiDataURL() {
+        return insertJapaneseKanjiDataURL;
     }
 
-    public String getPassword() {
-        return password;
+    public String getInsertNewUsersURL() {
+        return insertNewUsersURL;
     }
 
-    public String[] getTableName() {
-        return tableName;
-    }
-
-    public String getMYSQL_JDBC_DRIVER_CLASS() {
-        return MYSQL_JDBC_DRIVER_CLASS;
+    public String getCheckIfUserExistURL() {
+        return checkIfUserExistURL;
     }
 }
