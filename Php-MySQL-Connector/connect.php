@@ -11,9 +11,7 @@ ini_set('session.use_only_cookies', 1);
 session_set_cookie_params(86400);
 
 // Initialize response array
-
-// Initialize response array
-$response = array();
+// $response = array();
 
 try {
     $user = "root";
@@ -25,19 +23,19 @@ try {
     $mysqliConnection = new mysqli($host, $user, $password, $dbname, $port);
     if ($mysqliConnection->connect_error) {
         // Connection failed
-        $response['success'] = false;
-        $response['message'] = "Connection failed: " . $mysqliConnection->connect_error;
+        // $response['success'] = false;
+        // $response['message'] = "Connection failed: " . $mysqliConnection->connect_error;
     } else {
         // Connection successful
-        $response['success'] = true;
-        $response['message'] = "Connection successful!";
+        // $response['success'] = true;
+        // $response['message'] = "Connection successful!";
     }
 } catch(Exception $e) {
     // Exception occurred
-    $response['success'] = false;
-    $response['message'] = "An error occurred: " . $e->getMessage();
+    // $response['success'] = false;
+    // $response['message'] = "An error occurred: " . $e->getMessage();
 }
 
 // Encode response array to JSON and echo it
-echo json_encode($response);
+// echo json_encode($response, JSON_PRETTY_PRINT);
 ?>

@@ -1,6 +1,7 @@
 <?php
 include 'connect.php';
-
+// Initialize response array
+$response = array();
 if(!empty($_POST['username']) && !empty($_POST['password'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -51,5 +52,5 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
     $response['message'] = "Please provide both username and password";
 }
 // Send response as JSON
-echo json_encode($response);
+echo json_encode($response, JSON_PRETTY_PRINT);
 ?>

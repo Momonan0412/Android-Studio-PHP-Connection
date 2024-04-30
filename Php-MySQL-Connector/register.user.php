@@ -1,11 +1,11 @@
 <?php
 include 'connect.php';
-if (!empty($_POST['data'])) {
+// Initialize response array
+$response = array();
+if (!empty($_POST['username']) && !empty($_POST['password'])) {
     // Extract POST data
     $username = $_POST['username'];
     $password = $_POST['password'];
-    
-    $response['message'] = "Login successful";
     try {
         // Database operation
         $query = "INSERT INTO `dbjavacrud`.`tbluseraccount` (username, password) VALUES (?, ?)";
@@ -40,5 +40,5 @@ if (!empty($_POST['data'])) {
     $response['message'] = "No data received";
 }
 // Encode response array to JSON and echo it
-echo json_encode($response);
+echo json_encode($response, JSON_PRETTY_PRINT);
 ?>

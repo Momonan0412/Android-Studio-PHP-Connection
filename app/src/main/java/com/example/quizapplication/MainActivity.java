@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseUtilities databaseUtilities;
-//    ScrapperTask scrapperTask;
+    ScrapperTask scrapperTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
         });
         databaseUtilities = new DatabaseUtilities(getApplicationContext());
 //        databaseUtilities.createTable();
-        databaseUtilities.checkIfUserExist("Momonan0412","123123123");
+//        databaseUtilities.checkIfUserExist("Momonan0412","123123123");
 //        scrapperTask = new ScrapperTask(databaseUtilities);
 //        scrapperTask.execute();
+        databaseUtilities.readJapaneseKanjiData("Level 1");
     }
 }

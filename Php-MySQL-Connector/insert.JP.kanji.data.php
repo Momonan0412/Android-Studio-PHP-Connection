@@ -1,6 +1,8 @@
 <?php
 include 'connect.php';
-if (!empty($_POST['data'])) {
+// Initialize response array
+$response = array();
+if (!empty($_POST['level']) && !empty($_POST['kanji']) && !empty($_POST['furigana']) && !empty($_POST['english'])) {
     $level = $_POST['level'];
     $kanji = $_POST['kanji'];
     $furigana = $_POST['furigana'];
@@ -27,5 +29,5 @@ if (!empty($_POST['data'])) {
 }
 
 // Encode response array to JSON and echo it
-echo json_encode($response);
+echo json_encode($response, JSON_PRETTY_PRINT);
 ?>

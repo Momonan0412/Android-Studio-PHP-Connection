@@ -1,5 +1,7 @@
 <?php
 include 'connect.php';
+// Initialize response array
+$response = array();
 $connection = $mysqliConnection;
 try {
     $queryOne = "CREATE TABLE IF NOT EXISTS `dbjavacrud`.`tbluseraccount` (" .
@@ -32,33 +34,19 @@ try {
                 "UNIQUE (`kanji`)" .  // Add UNIQUE constraint to kanji column
                 ") ENGINE = InnoDB;";
     $resultThree = mysqli_query($connection, $queryThree);
-    
     // Check the result of each query and add status messages to the response array
-    if($resultOne !== false){
-        $response['messageOne'] = "Table user account created successfully";
-    } else {
-        $response['messageOne'] = "Error creating table user account: " . mysqli_error($connection);
-    }
-    
-    if($resultTwo !== false){
-        $response['messageTwo'] = "Table user profile created successfully";
-    } else {
-        $response['messageTwo'] = "Error creating table user profile: " . mysqli_error($connection);
-    }
-    
-    if($resultThree !== false){
-        $response['messageThree'] = "Table japanese vocabulary created successfully";
-    } else {
-        $response['messageThree'] = "Error creating table japanese vocabulary: " . mysqli_error($connection);
-    }
-    
-    // Set overall success status based on all table creation results
-    $response['success'] = ($resultOne !== false && $resultTwo !== false && $resultThree !== false);
+    $response['success'] = true;
+    $response['message'] = "Tables creation status";
+    $response['tables'] = array(
+        "tbluseraccount" => ($resultOne !== false) ? "Table user account created successfully" : "Error creating table user account: " . mysqli_error($connection),
+        "tbluserprofile" => ($resultTwo !== false) ? "Table user profile created successfully" : "Error creating table user profile: " . mysqli_error($connection),
+        "tbljapanesevocabulary" => ($resultThree !== false) ? "Table japanese vocabulary created successfully" : "Error creating table japanese vocabulary: " . mysqli_error($connection)
+    );
 } catch (Exception $e) {
     // Exception occurred, set error message in response
     $response['success'] = false;
     $response['errorMessage'] = "An error occurred: " . $e->getMessage();
 }
 // Encode response array to JSON and echo it
-echo json_encode($response);
+echo json_encode($response, JSON_PRETTY_PRINT);
 ?>
