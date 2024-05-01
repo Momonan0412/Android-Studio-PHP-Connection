@@ -7,24 +7,33 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.quizapplication.callbacks.UserExistCallback;
+
+/**
+ * DATABASE USAGE:
+ * databaseUtilities.createTable();
+ * databaseUtilities.insertNewUsers("xxxxxx","xxxxxx");
+ * databaseUtilities.readJapaneseKanjiData("Level 1");
+ * **/
 public class MainActivity extends AppCompatActivity {
     DatabaseUtilities databaseUtilities;
-    ScrapperTask scrapperTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         databaseUtilities = new DatabaseUtilities(getApplicationContext());
-//        databaseUtilities.createTable();
-//        databaseUtilities.checkIfUserExist("Momonan0412","123123123");
-//        scrapperTask = new ScrapperTask(databaseUtilities);
-//        scrapperTask.execute();
-        databaseUtilities.readJapaneseKanjiData("Level 1");
+
+        // THE CALLBACK RUN ASYNCHRONOUSLY
+        databaseUtilities.insertNewUsers("Momonan0412", "FurinaLablab", (insertSuccess)->{
+            if(insertSuccess){
+                System.out.println("Insert Success! in the main!");
+            }
+        });
+        // THE CALLBACK RUN ASYNCHRONOUSLY
+        databaseUtilities.checkIfUserExist("Momonan0412", "FurinaLablab", (userExists)->{
+            if(userExists){
+                System.out.println("Checked Success! in the main!");
+            }
+        });
     }
 }

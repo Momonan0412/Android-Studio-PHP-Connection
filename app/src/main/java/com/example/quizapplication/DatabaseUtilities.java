@@ -11,15 +11,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.quizapplication.callbacks.InsertSuccessCallback;
+import com.example.quizapplication.callbacks.UserExistCallback;
 import com.example.quizapplication.record.DatabaseConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class DatabaseUtilities {
             }, 1000); // Delay in milliseconds between each Toast
         }
     }
-    public void insertNewUsers(String username, String password){
+    public void insertNewUsers(String username, String password, final InsertSuccessCallback callback){
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = DATABASE_CONFIG.getInsertNewUsersURL();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -87,9 +87,11 @@ public class DatabaseUtilities {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {
+                                callback.onInsertSuccessChecked(true);
                                 Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                callback.onInsertSuccessChecked(false);
                             }
                         } catch (JSONException e) {
                             // Error parsing JSON response
@@ -100,6 +102,7 @@ public class DatabaseUtilities {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Check if the error is an instance of ServerError, indicating an issue with the server response
+                callback.onInsertSuccessChecked(false);
                 if (error instanceof ServerError) {
                     // Handle server error
                     Toast.makeText(context, "Server error occurred", Toast.LENGTH_SHORT).show();
@@ -114,7 +117,6 @@ public class DatabaseUtilities {
                     Toast.makeText(context, "Error occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-
         }){
             protected Map<String, String> getParams(){
                 Map<String, String> paramV = new HashMap<>();
@@ -125,7 +127,7 @@ public class DatabaseUtilities {
         };
         queue.add(stringRequest);
     }
-    public void checkIfUserExist(String username, String password){
+    public void checkIfUserExist(String username, String password, final UserExistCallback callback){
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = DATABASE_CONFIG.getCheckIfUserExistURL();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -135,13 +137,17 @@ public class DatabaseUtilities {
                         // Handle the response from the PHP script
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
+                            System.out.println(jsonResponse);
                             boolean success = jsonResponse.getBoolean("success");
+                            System.out.println(jsonResponse.getString("message"));
                             Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
                             if (success) {
                                 System.out.println(jsonResponse.getString("message"));
+                                callback.onUserExistChecked(true);
                                 Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                callback.onUserExistChecked(false);
                             }
                         } catch (JSONException e) {
                             // Error parsing JSON response
@@ -152,6 +158,7 @@ public class DatabaseUtilities {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Check if the error is an instance of ServerError, indicating an issue with the server response
+                callback.onUserExistChecked(false);
                 if (error instanceof ServerError) {
                     // Handle server error
                     Toast.makeText(context, "Server error occurred", Toast.LENGTH_SHORT).show();
