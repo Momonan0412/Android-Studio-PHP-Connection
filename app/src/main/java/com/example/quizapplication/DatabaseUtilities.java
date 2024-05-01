@@ -140,13 +140,13 @@ public class DatabaseUtilities {
                             System.out.println(jsonResponse);
                             boolean success = jsonResponse.getBoolean("success");
                             System.out.println(jsonResponse.getString("message"));
-                            Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
                             if (success) {
                                 System.out.println(jsonResponse.getString("message"));
                                 callback.onUserExistChecked(true);
-                                Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
                                 callback.onUserExistChecked(false);
                             }
                         } catch (JSONException e) {
@@ -184,6 +184,58 @@ public class DatabaseUtilities {
         };
         queue.add(stringRequest);
     }
+    public void checkIfTheUsernameIsRegistered(String username, final UserExistCallback callback){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = DATABASE_CONFIG.getUsernameCheckerURL();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Handle the response from the PHP script
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            System.out.println(jsonResponse);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if (success) {
+                                callback.onUserExistChecked(true);
+                            } else {
+                                callback.onUserExistChecked(false);
+                            }
+                        } catch (JSONException e) {
+                            // Error parsing JSON response
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Check if the error is an instance of ServerError, indicating an issue with the server response
+                callback.onUserExistChecked(false);
+                if (error instanceof ServerError) {
+                    // Handle server error
+                    Toast.makeText(context, "Server error occurred", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    // Handle network error
+                    Toast.makeText(context, "Network error occurred", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    // Handle parsing error
+                    Toast.makeText(context, "Parse error occurred", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Handle other types of errors
+                    Toast.makeText(context, "Error occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }){
+            protected Map<String, String> getParams(){
+                Map<String, String> paramV = new HashMap<>();
+                paramV.put("username", username);
+                return paramV;
+            }
+        };
+        queue.add(stringRequest);
+    }
     public void readJapaneseKanjiData(String level){
 
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -195,6 +247,7 @@ public class DatabaseUtilities {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray jsonArray = jsonResponse.getJSONArray("kanjis");
+                            // TODO: Implement random callback that would return a random kanji
                             for(int i = 0; i < jsonArray.length(); i++){
                                 // Get the JSONObject at index 'i'
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);

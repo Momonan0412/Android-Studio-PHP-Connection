@@ -6,15 +6,17 @@ public class DatabaseConfig {
     private String readJapaneseKanjiDataURL;
     private String insertNewUsersURL;
     private String checkIfUserExistURL;
+    private String usernameCheckerURL;
 
     private DatabaseConfig(String createTableURL, String insertJapaneseKanjiDataURL,
                            String insertNewUsersURL, String checkIfUserExistURL,
-                           String readJapaneseKanjiDataURL) {
+                           String readJapaneseKanjiDataURL, String usernameCheckerURL) {
         this.createTableURL = createTableURL;
         this.insertJapaneseKanjiDataURL = insertJapaneseKanjiDataURL;
         this.insertNewUsersURL = insertNewUsersURL;
         this.checkIfUserExistURL = checkIfUserExistURL;
         this.readJapaneseKanjiDataURL = readJapaneseKanjiDataURL;
+        this.usernameCheckerURL = usernameCheckerURL;
     }
 
     public static DatabaseConfig createWithDefaults() {
@@ -23,7 +25,8 @@ public class DatabaseConfig {
                 "http://192.168.254.101/Php-MySQL-Connector/insert.JP.kanji.data.php",
                 "http://192.168.254.101/Php-MySQL-Connector/register.user.php",
                 "http://192.168.254.101/Php-MySQL-Connector/user.checker.php",
-                "http://192.168.254.101/Php-MySQL-Connector/read.JP.kanji.data.php"
+                "http://192.168.254.101/Php-MySQL-Connector/read.JP.kanji.data.php",
+                "http://192.168.254.101/Php-MySQL-Connector/username.checker.php"
         );
     }
 
@@ -45,5 +48,8 @@ public class DatabaseConfig {
 
     public String getReadJapaneseKanjiDataURL() {
         return readJapaneseKanjiDataURL;
+    }
+    public String getUsernameCheckerURL() {
+        return usernameCheckerURL;
     }
 }

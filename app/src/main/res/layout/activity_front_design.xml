@@ -18,8 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="317dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView2">
 
         <Button
             android:id="@+id/btnSignIn"
@@ -28,17 +30,17 @@
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/ripple"
             android:backgroundTint="#A9A9A9"
             android:elevation="10dp"
-            android:fontFamily="@font/black_han_sans"
+            android:fontFamily="@font/jujutsu_kaisen"
             android:shadowColor="#FFFFFF"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
             android:text="Sign In"
-            android:background="@drawable/ripple"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="34sp" />
 
         <Button
             android:id="@+id/btnSignUp"
@@ -47,17 +49,17 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
+            android:background="@drawable/ripple"
             android:backgroundTint="#A9A9A9"
             android:elevation="10dp"
-            android:fontFamily="@font/black_han_sans"
+            android:fontFamily="@font/jujutsu_kaisen"
             android:shadowColor="#FFFFFF"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
             android:text="Sign Up"
-            android:background="@drawable/ripple"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="34sp" />
 
     </LinearLayout>
 
