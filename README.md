@@ -10,11 +10,11 @@
 
 
 # CHATGPT
-# Php-MySQL-Connector
+## Php-MySQL-Connector
 
 This repository contains a PHP script for connecting to a MySQL database and performing basic operations.
 
-## Installation
+### Installation
 
 1. Ensure you have XAMPP installed on your system.
 2. Clone or download this repository and extract it to your local machine.
@@ -22,7 +22,7 @@ This repository contains a PHP script for connecting to a MySQL database and per
 4. Make sure XAMPP is turned on and Apache and MySQL services are running.
 5. Open your web browser and navigate to `http://localhost:<port>/Php-MySQL-Connector/` to verify that the PHP scripts are accessible. Replace `<port>` with the port number configured for Apache in your XAMPP settings.
 
-## Configuration
+### Configuration
 
 Before using the PHP scripts, ensure that your MySQL database is configured correctly and that the credentials in the `connect.php` file match your database configuration.
 
@@ -30,7 +30,7 @@ Before using the PHP scripts, ensure that your MySQL database is configured corr
 2. Update the database host, username, password, and database name as per your MySQL configuration.
 3. Save the changes.
 
-## Usage
+### Usage
 
 Once the PHP scripts are set up and configured:
 
@@ -38,7 +38,7 @@ Once the PHP scripts are set up and configured:
 - Make sure to properly sanitize and validate user input to prevent SQL injection attacks.
 - Refer to the documentation in each PHP file for usage instructions and examples.
 
-## Troubleshooting
+### Troubleshooting
 
 If you encounter any issues:
 
