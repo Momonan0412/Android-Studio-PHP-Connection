@@ -20,6 +20,7 @@ public class Content extends AppCompatActivity {
     DatabaseUtilities databaseUtilities;
     Random random;
     JSONArray jsonArray;
+    JSONArray jsonArrayCopy;
     String answer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,25 +39,31 @@ public class Content extends AppCompatActivity {
         // RANDOM DATA TO GUESS AND IN THE ONE IF THE CHOICES
         databaseUtilities.readJapaneseKanjiData("Level 1", (data)->{
             this.jsonArray = data;
+            this.jsonArrayCopy = data;
+            System.out.println("Data " + data.length() + "\n JsonArray " + jsonArray.length() );
             kanjiChanger();
         });
     }
 
     private void kanjiChanger() {
+        if(jsonArray.length() == 0){
+            Toast.makeText(this, "No more kanji", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int indexKanji = random.nextInt(this.jsonArray.length());
         int indexChoice = random.nextInt(5);
         try {
-            textViewKanji.setText(jsonArray.getJSONObject(indexKanji).getString("kanji"));
-            textViews[indexChoice].setText(jsonArray.getJSONObject(indexKanji).getString("furigana"));
-            answer = jsonArray.getJSONObject(indexKanji).getString("furigana");
             for(int i = 0; i < 5; i++){
-                if(i != indexChoice){
-                    int index = random.nextInt(jsonArray.length());
-                    textViews[i].setText(jsonArray.getJSONObject(index).getString("furigana"));
-                }
+                int index = random.nextInt(jsonArrayCopy.length());
+                textViews[i].setText(jsonArrayCopy.getJSONObject(index).getString("furigana"));
             }
+            textViewKanji.setText(jsonArray.getJSONObject(indexKanji).getString("kanji"));
+            answer = jsonArray.getJSONObject(indexKanji).getString("furigana");
+            textViews[indexChoice].setText(jsonArray.getJSONObject(indexKanji).getString("furigana"));
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        } finally {
+            jsonArray.remove(indexKanji);
         }
     }
 
