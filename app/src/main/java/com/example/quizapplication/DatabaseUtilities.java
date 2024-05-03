@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.quizapplication.callbacks.InsertSuccessCallback;
+import com.example.quizapplication.callbacks.JapaneseDataCallBack;
 import com.example.quizapplication.callbacks.UserExistCallback;
 import com.example.quizapplication.record.DatabaseConfig;
 
@@ -21,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -236,8 +238,8 @@ public class DatabaseUtilities {
         };
         queue.add(stringRequest);
     }
-    public void readJapaneseKanjiData(String level){
-
+    public void readJapaneseKanjiData(String level, final JapaneseDataCallBack callback){
+        ArrayList<JapaneseData> data = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = DATABASE_CONFIG.getReadJapaneseKanjiDataURL();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -247,22 +249,7 @@ public class DatabaseUtilities {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray jsonArray = jsonResponse.getJSONArray("kanjis");
-                            // TODO: Implement random callback that would return a random kanji
-                            for(int i = 0; i < jsonArray.length(); i++){
-                                // Get the JSONObject at index 'i'
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                // Retrieve the values for 'kanji', 'furigana', and 'english' keys
-                                String kanji = jsonObject.getString("kanji");
-                                String furigana = jsonObject.getString("furigana");
-                                String english = jsonObject.getString("english");
-
-                                // Print the values
-                                System.out.println("Kanji: " + kanji);
-                                System.out.println("Furigana: " + furigana);
-                                System.out.println("English: " + english);
-                                System.out.println("----------------------");
-                            }
+                            callback.onJapaneseDataCallBack(jsonArray);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }

@@ -21,7 +21,7 @@
             android:name=".SignIn"
             android:exported="false" />
         <activity
-            android:name=".FrontDesign"
+            android:name=".Content"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

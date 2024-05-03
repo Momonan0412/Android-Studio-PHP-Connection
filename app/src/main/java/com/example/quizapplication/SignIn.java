@@ -1,17 +1,12 @@
 package com.example.quizapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.example.quizapplication.callbacks.UserExistCallback;
 
 public class SignIn extends AppCompatActivity {
     EditText editTextUsernameInSignIn, editTextPasswordInSignIn;
@@ -31,6 +26,7 @@ public class SignIn extends AppCompatActivity {
             databaseUtilities.checkIfUserExist(username, password, (userExist)->{
                 if (userExist) {
                     Toast.makeText(SignIn.this, "Login Success!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignIn.this, Content.class));
                 } else {
                     Toast.makeText(SignIn.this, "Check your username and password!", Toast.LENGTH_SHORT).show();
                 }
